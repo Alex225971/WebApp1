@@ -4,12 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{6DCB015A-CD6E-47B9-87CE-CD33CD6355EC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{45F8E97E-7A48-4DD4-B45F-18FA5C8582B9} = {45F8E97E-7A48-4DD4-B45F-18FA5C8582B9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.DataAccess", "WebApp.DataAccess\WebApp.DataAccess.csproj", "{C5ACDCD8-302C-460D-B3EB-86BA700764C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.DataAccess", "WebApp.DataAccess\WebApp.DataAccess.csproj", "{C5ACDCD8-302C-460D-B3EB-86BA700764C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Models", "WebApp.Models\WebApp.Models.csproj", "{76744C52-4D71-4CEF-81D3-D3514E309D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Models", "WebApp.Models\WebApp.Models.csproj", "{76744C52-4D71-4CEF-81D3-D3514E309D37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Utilities", "WebApp.Utilities\WebApp.Utilities.csproj", "{45F8E97E-7A48-4DD4-B45F-18FA5C8582B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Utilities", "WebApp.Utilities\WebApp.Utilities.csproj", "{45F8E97E-7A48-4DD4-B45F-18FA5C8582B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

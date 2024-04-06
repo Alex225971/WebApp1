@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApp.DataAccess.Repository.IRepository;
 using WebApplication1.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebApp.DataAccess.Repository
 {
@@ -36,24 +37,19 @@ namespace WebApp.DataAccess.Repository
             dbSet.RemoveRange(entity);
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
-            IQueryable<T> query = dbSet;
-            if (!string.IsNullOrEmpty(includeProperties)) 
+            IQueryable<T> query;
+            if (tracked)
             {
-                foreach(var includeProp in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(includeProp);
-                }
+                query = dbSet;
             }
-            return query.ToList();
-        }
+            else
+            {
+                query = dbSet.AsNoTracking();
+            }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
-        {
-            IQueryable<T> query = dbSet;
             query = query.Where(filter);
-
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProp in includeProperties
@@ -62,9 +58,26 @@ namespace WebApp.DataAccess.Repository
                     query = query.Include(includeProp);
                 }
             }
-
             return query.FirstOrDefault();
 
+        }
+
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+            return query.ToList();
         }
     }
 }

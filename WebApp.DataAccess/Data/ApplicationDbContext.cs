@@ -15,6 +15,11 @@ namespace WebApplication1.Data
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +29,11 @@ namespace WebApplication1.Data
                 new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
                 new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
                 new Category { Id = 3, Name = "History", DisplayOrder = 3 }
+                );
+
+            modelBuilder.Entity<Company>().HasData(
+                new Company { Id = 1, Name = "First company", StreetAddress = "1 new road", State = "Sussex", City = "Brighton", PhoneNumber ="0121DO1", PostalCode = "BN1 1AA" },
+                new Company { Id = 2, Name = "Second company", StreetAddress = "2 new road", State = "London", City = "London", PhoneNumber = "01919828", PostalCode = "SE15 HB2" }
                 );
 
             modelBuilder.Entity<Product>().HasData(
