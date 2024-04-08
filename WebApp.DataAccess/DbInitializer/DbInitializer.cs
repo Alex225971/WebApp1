@@ -56,7 +56,7 @@ namespace WebApp.DataAccess.DbInitializer
                     State = "ES",
                     PostalCode = "1234567890",
                     City = "1234567890"
-                }, "$4V9B1k4z)|9").GetAwaiter().GetResult();
+                }, "Admin123!").GetAwaiter().GetResult();
 
                 ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "ahaines964@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
