@@ -8,15 +8,22 @@
     <div class="card-header bg-secondary bg-gradient m-lg-0 py-4">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="py-2 text-light">@ViewData["Title"]</h2>
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <h2 class="py-2 text-light">@ViewData["Title"] - Admin Portal</h2>
+                } 
+                else
+                {
+                    <h2 class="py-2 text-light">@ViewData["Title"]</h2>
+                }
             </div>
-        </div> 
+        </div>
     </div>
     <div class="card-body p-4">
         <div class="row pt-4">
             <div class="col-md-12 mb-3">
                 <form id="registerForm" class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <h3 class="border-bottom p-3 mb-4 text-secondary text-center">Create a new account.</h3>
+                    <h3 class="border-bottom p-3 mb-4 text-secondary text-center">Create an account for a company partner</h3>
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="form-floating mb-3 col-12">
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
@@ -43,11 +50,20 @@
                         <label asp-for="Input.ConfirmPassword" class="mx-3 text-muted">Confirm Password</label>
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-6">
-                        <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
-                            <option disabled selected>Select a role</option>
-                        </select>
-                    </div>
+                    @if (User.IsInRole(SD.Role_Admin))
+                    {
+                        <div class="form-floating mb-3 col-6 pt-1">
+                            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select pt-2">
+                                <option disabled selected>Select a role</option>
+                            </select>
+                        </div>
+                        <div class="form-floating mb-3 col-6 pt-1">
+                            <select asp-for="Input.CompanyId" style="display:none;" asp-items="@Model.Input.CompanyList" class="form-select pt-2">
+                                <option disabled selected>Select a company</option>
+                            </select>
+                        </div>
+                    }
+
                     <div class="form-floating mb-3 col-6">
                         <input asp-for="Input.StreetAdress" class="form-control" aria-required="true" placeholder="name@example.com" />
                         <label asp-for="Input.StreetAdress" class="mx-3 text-muted">Street Adress</label>
@@ -68,15 +84,10 @@
                         <label asp-for="Input.State" class="mx-3 text-muted">State</label>
                         <span asp-validation-for="Input.State" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-6">
-                        <select asp-for="Input.CompanyId" style="display:none;" asp-items="@Model.Input.CompanyList" class="form-select">
-                            <option disabled selected>Select a company</option>
-                        </select>
-                    </div>
                     <div class="col-12">
                         <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
                     </div>
-                    
+
                 </form>
             </div>
             <div class="col-md-12 col-md-offset-2">
@@ -95,16 +106,16 @@
                                     </a>.
                                 </p>
                             </div>
-                            
-                            
-                            
+
+
+
                             <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                                 <div>
                                     <p>
                                         @foreach (var provider in Model.ExternalLogins!)
-                                       {
+                                        {
                                             <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                       }
+                                        }
                                     </p>
                                 </div>
                             </form>
