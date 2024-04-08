@@ -125,7 +125,7 @@ namespace WebApplication1.Areas.Customer.Controllers
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                 StripeConfiguration.ApiKey = "sk_test_51P2JQ3JJ4Iy0SXKbzRc1bxYeEEjQkGzJDfGJeR4LXQhjZCKJZnr100qXgEWuBGiR1FIyd7vDU5xgxfiPRmz6f2bs00J1dr6X9M";
-                var domain = "http://localhost:5201/";
+                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
                 var options = new Stripe.Checkout.SessionCreateOptions
                 {
                     SuccessUrl = domain+$"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
