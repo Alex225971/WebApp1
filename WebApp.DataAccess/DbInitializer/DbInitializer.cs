@@ -55,6 +55,7 @@ namespace WebApp.DataAccess.DbInitializer
                     StreetAddress = "1234567890",
                     State = "ES",
                     PostalCode = "1234567890",
+                    EmailConfirmed = true,
                     City = "1234567890"
                 }, "Admin123!").GetAwaiter().GetResult();
 
