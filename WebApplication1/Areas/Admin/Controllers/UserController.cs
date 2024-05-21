@@ -103,13 +103,10 @@ namespace WebApplication1.Areas.Admin.Controllers
         public IActionResult GetAll(int id)
         {
             List<ApplicationUser> objUserList = _db.ApplicationUsers.Include(u => u.Company).ToList();
-            var userRoles = _db.UserRoles.ToList();
-            var roles = _db.Roles.ToList();
 
             foreach (var user in objUserList)
             {
-                var roleId = userRoles.FirstOrDefault(u => u.UserId == user.Id).RoleId;
-                user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
+                user.Role = _userManager.GetRolesAsync(user).GetAwaiter().GetResult().FirstOrDefault();
 
                 if (user.Company == null)
                 {
@@ -126,7 +123,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult LockUnlock([FromBody] string userId)
         {
-            var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == userId);
+            var objFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == userId);
             if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Account lock/unlock was unsuccessful" });
@@ -140,7 +137,8 @@ namespace WebApplication1.Areas.Admin.Controllers
             {
                 objFromDb.LockoutEnd = DateTime.Now.AddYears(100);
             }
-            _db.SaveChanges();
+            _unitOfWork.ApplicationUser.Update(objFromDb);
+            _unitOfWork.Save();
             return Json(new { success = true, message = "Account lock/unlock was successful" });
 
         }
